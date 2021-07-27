@@ -1,0 +1,16 @@
+.warning-small {
+  color: #ff0000;
+  word-break: break-all;
+  font-size: 1.0em;
+  padding: 2px;
+  letter-spacing: 1px;
+}
+
+.confirm-small {
+  color: #0066ff;
+  word-break: break-all;
+  font-size: 1.0em;
+  padding: 2px;
+  letter-spacing: 1px;
+}
+

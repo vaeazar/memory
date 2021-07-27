@@ -29,7 +29,7 @@ spring:
     check-template-location: true
 
 mybatis: #Mybatis 설정
-  type-aliases-package: com.example.beerProj.main.domain
+  type-aliases-package: com.maze.memory.domain
   mapper-locations: static/mapper/**/*.xml
 
 log4jdbc: #log4jdbc 설정
@@ -49,7 +49,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://localhost:3306/beerProj?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       username: root
       password: 2nL!ple
@@ -79,7 +79,7 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/beerProj?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       username: root
       password: 2nL!ple
@@ -91,7 +91,7 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
 spring:
   profiles: prod
   datasource:
-    url: jdbc:mysql://localhost:3306/beerProj?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       username: root
       password: 2nL!ple
