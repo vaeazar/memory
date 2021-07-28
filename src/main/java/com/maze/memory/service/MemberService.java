@@ -30,7 +30,11 @@ public class MemberService {
     try {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
-      memberInfo.setMemberID(memberInfo.getMemberID().replaceAll(" ",""));
+      if (memberInfo.IDAndPWBlank()) {
+        resultJson.put("flag","fail");
+        resultJson.put("reason","empty");
+        return resultJson;
+      }
       StringUtils.pwChanger(memberInfo);
 
       log.info("memberInfo:::{}",memberInfo.getMemberID());

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
+import org.junit.platform.commons.util.StringUtils;
 
 @Entity
 @Data
@@ -31,5 +32,11 @@ public class MemberInfo {
   public MemberInfo() {
     this.memberClearRoom = "0";
     this.memberRecentRoom = "0";
+  }
+
+  public boolean IDAndPWBlank() {
+    boolean idCheck = StringUtils.isBlank(memberID);
+    boolean pwCheck = StringUtils.isBlank(memberPW);
+    return idCheck && pwCheck;
   }
 }

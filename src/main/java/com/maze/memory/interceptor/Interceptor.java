@@ -15,7 +15,6 @@ public class Interceptor  extends HandlerInterceptorAdapter {
       throws Exception {
     // TODO Auto-generated method stub
     String referer = request.getHeader("Referer");
-    log.info("referer:::{}", referer);
     if (StringUtils.isEmpty(referer)) {
       return false;
     }
