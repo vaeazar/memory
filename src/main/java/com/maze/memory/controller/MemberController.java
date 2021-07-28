@@ -2,6 +2,7 @@ package com.maze.memory.controller;
 
 import com.maze.memory.service.MemberService;
 import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class MemberController {
 
   @RequestMapping("memberRegister.do")
   @ResponseBody
-  public String memberRegister(@RequestParam HashMap<String, Object> params) {
+  public String memberRegister(HttpServletRequest request, @RequestParam HashMap<String, Object> params) {
     JSONObject memberListString = new JSONObject();
 
     try {

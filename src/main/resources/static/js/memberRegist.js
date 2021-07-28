@@ -69,6 +69,8 @@ function memberRegister(callBack, contentType) {
 function checkMemberInfo() {
   let memberPWEvent = document.querySelector('#memberPW');
   let memberPW = memberPWEvent.value;
+  let memberIDEvent = document.querySelector('#memberID');
+  let memberID = memberIDEvent.value.replaceAll(' ','');
   console.log(checkNotPass(memberPW));
 
   if (checkNotPass(memberPW)) {
@@ -77,14 +79,30 @@ function checkMemberInfo() {
     return;
   }
 
+  if (checkNotID(memberID)) {
+    memberIDEvent.focus();
+    alert('ID 조건을 확인해주세요.\n1~16자리 영문 숫자 가능');
+    return;
+  }
+
+
   return {
-    memberID: document.querySelector('#memberID').value,
+    memberID: memberID,
     memberPW: memberPW,
   };
 }
 
 function checkNotPass(str) {
   const regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+  if(regExp.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function checkNotID(str) {
+  const regExp = /^[A-Za-z0-9+]{1,16}$/;
   if(regExp.test(str)) {
     return false;
   } else {

@@ -49,7 +49,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://192.168.100.97:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       username: root
       password: 2nL!ple
@@ -79,7 +79,7 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
 spring:
   profiles: dev
   datasource:
-    url: jdbc:mysql://192.168.100.97:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       username: root
       password: 2nL!ple
@@ -91,7 +91,7 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
 spring:
   profiles: prod
   datasource:
-    url: jdbc:mysql://192.168.100.97:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       username: root
       password: 2nL!ple

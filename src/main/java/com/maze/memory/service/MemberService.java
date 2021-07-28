@@ -30,6 +30,7 @@ public class MemberService {
     try {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
+      memberInfo.setMemberID(memberInfo.getMemberID().replaceAll(" ",""));
       StringUtils.pwChanger(memberInfo);
 
       log.info("memberInfo:::{}",memberInfo.getMemberID());
@@ -37,7 +38,6 @@ public class MemberService {
 
       //중복 회원 검증
       if (invalidateDuplicateMember(memberInfo).get()) {
-        log.info("갸아아아아악");
         resultJson.put("flag","fail");
         resultJson.put("reason","duplicate");
         return resultJson;
