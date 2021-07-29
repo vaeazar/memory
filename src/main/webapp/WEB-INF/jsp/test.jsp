@@ -6,11 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/head.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <h2>welcome</h2>
-    <div><a href="memberRegister">regist</a></div>
-    <div><a href="test">test</a></div>
+    <h2>wwwwwwwwwwelcome</h2>
+    <div><a href="/">이탈실험</a></div>
 </body>
 </html>

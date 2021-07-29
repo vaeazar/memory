@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +38,6 @@ public class MemberService {
       }
       StringUtils.pwChanger(memberInfo);
 
-      log.info("memberInfo:::{}",memberInfo.getMemberID());
-      log.info("memberInfo:::{}",memberInfo.getMemberPW());
-
       //중복 회원 검증
       if (invalidateDuplicateMember(memberInfo).get()) {
         resultJson.put("flag","fail");
@@ -54,6 +52,53 @@ public class MemberService {
       resultJson.put("flag","fail");
     }
     return resultJson;
+  }
+
+  public JSONObject loginCheck(HttpSession session, HashMap<String, Object> params) {
+
+    JSONObject resultJson = new JSONObject();
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
+      if (memberInfo.IDAndPWBlank()) {
+        resultJson.put("flag","fail");
+        resultJson.put("reason","empty");
+        return resultJson;
+      }
+      Optional<MemberInfo> resultMember = findOneByMemberIDAndPW(memberInfo.getMemberID(),memberInfo.getMemberPW());
+      if (resultMember.isPresent()) {
+        resultJson.put("flag","complete");
+        resultJson.put("memberID",memberInfo.getMemberID());
+        session.setAttribute(memberInfo.getMemberID(),true);
+      }
+    } catch (Exception e) {
+      resultJson.put("flag","fail");
+    }
+
+    return resultJson;
+  }
+
+  public boolean sessionCheck(HttpSession session, HashMap<String, Object> params, JSONObject resultJson) {
+
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
+      if (memberInfo.IDAndPWBlank()) {
+        resultJson.put("flag","fail");
+        resultJson.put("reason","empty");
+      }
+      Optional<MemberInfo> resultMember = findOneByMemberIDAndPW(memberInfo.getMemberID(),memberInfo.getMemberPW());
+      if (resultMember.isPresent()) {
+        resultJson.put("flag","complete");
+        resultJson.put("memberID",memberInfo.getMemberID());
+        session.setAttribute(memberInfo.getMemberID(),true);
+      }
+    } catch (Exception e) {
+      resultJson.put("flag","fail");
+    }
+    return false;
   }
 
   private AtomicBoolean invalidateDuplicateMember(MemberInfo memberInfo) {

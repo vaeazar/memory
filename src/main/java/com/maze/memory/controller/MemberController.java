@@ -25,14 +25,22 @@ public class MemberController {
 
   @RequestMapping("login.do")
   @ResponseBody
-  public String memberLogin(@RequestParam HashMap<Object, Object> params) {
+  public String memberLogin(HttpServletRequest request, @RequestParam HashMap<String, Object> params) {
     JSONObject memberListString = new JSONObject();
+
+    try {
+      memberListString = memberService.loginCheck(request.getSession(), params);
+    } catch (Exception e) {
+      e.printStackTrace();
+      memberListString.put("flag","fail");
+    }
+
     return memberListString.toJSONString();
   }
 
   @RequestMapping("memberRegister.do")
   @ResponseBody
-  public String memberRegister(HttpServletRequest request, @RequestParam HashMap<String, Object> params) {
+  public String memberRegister(@RequestParam HashMap<String, Object> params) {
     JSONObject memberListString = new JSONObject();
 
     try {

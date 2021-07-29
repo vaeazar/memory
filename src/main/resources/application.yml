@@ -49,7 +49,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
     hikari:
       username: root
       password: 2nL!ple
@@ -57,6 +57,10 @@ spring:
     generate-ddl: false
     open-in-view: false
     show-sql: true
+#    properties:
+#      hibernate:
+#        jdbc:
+#          time_zone: UTC
 #    hibernate:
 #      ddl-auto: validate
 #      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
@@ -77,7 +81,9 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
 
 --- #dev 환경
 spring:
-  profiles: dev
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
@@ -89,7 +95,9 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
 
 --- #prod 환경
 spring:
-  profiles: prod
+  config:
+    activate:
+      on-profile: prod
   datasource:
     url: jdbc:mysql://localhost:3306/memory?characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
