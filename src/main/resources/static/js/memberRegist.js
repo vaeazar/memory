@@ -47,7 +47,7 @@ function pwConfirm(memberPWEvent, memberPWConfirmEvent, warningText) {
 
 function memberRegister(callBack, contentType) {
   let options = checkMemberInfo();
-  if (checkIsNull(options)) {
+  if (checkIsEmpty(options)) {
     return;
   }
   $.ajax({
@@ -107,13 +107,5 @@ function checkNotID(str) {
     return false;
   } else {
     return true;
-  }
-}
-
-function checkIsNull(value) {
-  if (value == undefined || value == null || value == '') {
-    return true;
-  } else {
-    return false;
   }
 }

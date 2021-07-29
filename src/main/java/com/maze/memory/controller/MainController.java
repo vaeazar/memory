@@ -35,6 +35,12 @@ public class MainController {
     mv.setViewName("test");
     return mv;
   }
+  @RequestMapping("loginPage")
+  public ModelAndView loginPage() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("loginPage");
+    return mv;
+  }
   @RequestMapping("outTest")
   @ResponseBody
   public String outTest() {

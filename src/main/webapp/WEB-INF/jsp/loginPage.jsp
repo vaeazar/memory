@@ -9,18 +9,16 @@
     <link rel="stylesheet" href="css/common.css">
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="js/common.js"></script>
-    <script src="js/memberRegist.js"></script>
+    <script src="js/login.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <h2>www2</h2>
+    <h2>lglgoglgolgogin</h2>
     <div>
         <ui>
             <li><input id="memberID" name="memberID" placeholder="insert id"></li>
             <li><input type="password" id="memberPW" name="memberPW" class="memberPW" placeholder="insert password"></li>
-            <li><input type="password" id="memberPWConfirm" name="memberPWConfirm" class="memberPW" placeholder="password confirm"></li>
-            <li id="memberPWText" class="warning-small">비밀번호를 입력해주세요.</li>
-            <li><button id="memberRegisterBtn">등록</button></li>
+            <li><button id="loginBtn">login</button></li>
         </ui>
     </div>
 </body>

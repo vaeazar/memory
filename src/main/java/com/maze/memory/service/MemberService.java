@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maze.memory.domain.MemberInfo;
 import com.maze.memory.repository.MemberRepository;
-import com.maze.memory.utils.StringUtils;
+import com.maze.memory.utils.CommonUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -32,51 +32,53 @@ public class MemberService {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
       if (memberInfo.IDAndPWBlank()) {
-        resultJson.put("flag","fail");
+        resultJson.put("resultFlag","fail");
         resultJson.put("reason","empty");
         return resultJson;
       }
-      StringUtils.pwChanger(memberInfo);
+      CommonUtils.pwChanger(memberInfo);
 
       //중복 회원 검증
       if (invalidateDuplicateMember(memberInfo).get()) {
-        resultJson.put("flag","fail");
+        resultJson.put("resultFlag","fail");
         resultJson.put("reason","duplicate");
         return resultJson;
       }
       memberRepository.save(memberInfo);
 
-      resultJson.put("flag","complete");
+      resultJson.put("resultFlag","complete");
       resultJson.put("memberID",memberInfo.getId());
     } catch (Exception e) {
-      resultJson.put("flag","fail");
+      resultJson.put("resultFlag","fail");
     }
     return resultJson;
   }
 
-  public JSONObject loginCheck(HttpSession session, HashMap<String, Object> params) {
+  public boolean loginCheck(HttpSession session, HashMap<String, Object> params, JSONObject resultJson) {
 
-    JSONObject resultJson = new JSONObject();
     ObjectMapper mapper = new ObjectMapper();
     try {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
       if (memberInfo.IDAndPWBlank()) {
-        resultJson.put("flag","fail");
+        resultJson.put("resultFlag","fail");
         resultJson.put("reason","empty");
-        return resultJson;
       }
+      String memberSalt = memberRepository.findMemberSaltByMemberID(memberInfo.getMemberID());
+      memberInfo.setMemberSalt(memberSalt);
+      CommonUtils.pwChanger(memberInfo);
       Optional<MemberInfo> resultMember = findOneByMemberIDAndPW(memberInfo.getMemberID(),memberInfo.getMemberPW());
       if (resultMember.isPresent()) {
-        resultJson.put("flag","complete");
+        resultJson.put("resultFlag","complete");
         resultJson.put("memberID",memberInfo.getMemberID());
         session.setAttribute(memberInfo.getMemberID(),true);
+      } else {
+        resultJson.put("resultFlag","wrongMember");
       }
     } catch (Exception e) {
-      resultJson.put("flag","fail");
+      resultJson.put("resultFlag","fail");
     }
-
-    return resultJson;
+    return false;
   }
 
   public boolean sessionCheck(HttpSession session, HashMap<String, Object> params, JSONObject resultJson) {
@@ -86,17 +88,17 @@ public class MemberService {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
       if (memberInfo.IDAndPWBlank()) {
-        resultJson.put("flag","fail");
+        resultJson.put("resultFlag","fail");
         resultJson.put("reason","empty");
       }
       Optional<MemberInfo> resultMember = findOneByMemberIDAndPW(memberInfo.getMemberID(),memberInfo.getMemberPW());
       if (resultMember.isPresent()) {
-        resultJson.put("flag","complete");
+        resultJson.put("resultFlag","complete");
         resultJson.put("memberID",memberInfo.getMemberID());
         session.setAttribute(memberInfo.getMemberID(),true);
       }
     } catch (Exception e) {
-      resultJson.put("flag","fail");
+      resultJson.put("resultFlag","fail");
     }
     return false;
   }

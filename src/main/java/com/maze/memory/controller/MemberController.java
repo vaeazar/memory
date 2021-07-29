@@ -26,16 +26,19 @@ public class MemberController {
   @RequestMapping("login.do")
   @ResponseBody
   public String memberLogin(HttpServletRequest request, @RequestParam HashMap<String, Object> params) {
-    JSONObject memberListString = new JSONObject();
+    JSONObject resultString = new JSONObject();
 
     try {
-      memberListString = memberService.loginCheck(request.getSession(), params);
+      if (memberService.loginCheck(request.getSession(), params, resultString)) {
+        resultString.put("resultFlag","wrongMember");
+      } else {
+      }
     } catch (Exception e) {
       e.printStackTrace();
-      memberListString.put("flag","fail");
+      resultString.put("resultFlag","fail");
     }
 
-    return memberListString.toJSONString();
+    return resultString.toJSONString();
   }
 
   @RequestMapping("memberRegister.do")
@@ -47,7 +50,7 @@ public class MemberController {
       memberListString = memberService.join(params);
     } catch (Exception e) {
       e.printStackTrace();
-      memberListString.put("flag","fail");
+      memberListString.put("resultFlag","fail");
     }
 
     return memberListString.toJSONString();

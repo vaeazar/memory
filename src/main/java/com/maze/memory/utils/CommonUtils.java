@@ -6,8 +6,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import org.junit.platform.commons.util.StringUtils;
 
-public class StringUtils {
+public class CommonUtils {
 
   public static void pwChanger(MemberInfo memberInfo) {
     String raw = memberInfo.getMemberPW();
@@ -18,6 +19,11 @@ public class StringUtils {
       byte[] bytes = new byte[16];
       random.nextBytes(bytes);
       String salt = new String(Base64.getEncoder().encode(bytes));
+      if (StringUtils.isNotBlank(memberInfo.getMemberSalt())) {
+        salt = memberInfo.getMemberSalt();
+      } else {
+        memberInfo.setMemberSalt(salt);
+      }
 
       MessageDigest md = MessageDigest.getInstance("SHA-256");
       md.update(salt.getBytes());
@@ -25,7 +31,6 @@ public class StringUtils {
       String hex = String.format("%064x", new BigInteger(1, md.digest()));
 
       memberInfo.setMemberPW(hex);
-      memberInfo.setMemberSalt(salt);
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
     }

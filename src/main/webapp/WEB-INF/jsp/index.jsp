@@ -12,5 +12,6 @@
     <h2>welcome</h2>
     <div><a href="memberRegister">regist</a></div>
     <div><a href="test">test</a></div>
+    <div><a href="loginPage">loginPage</a></div>
 </body>
 </html>
