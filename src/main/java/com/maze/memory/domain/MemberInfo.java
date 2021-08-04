@@ -39,6 +39,8 @@ public class MemberInfo {
   String memberClearRoom;
   @Column(name = "MEMBER_RECENT_ROOM")
   String memberRecentRoom;
+  @Column(name = "MEMBER_ROLE")
+  String memberRole;
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -53,6 +55,7 @@ public class MemberInfo {
   private ZonedDateTime lastModifiedDate;
 
   public MemberInfo() {
+    this.memberRole = "member";
     this.memberClearRoom = "0";
     this.memberRecentRoom = "0";
   }

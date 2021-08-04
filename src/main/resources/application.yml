@@ -49,7 +49,7 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://memory-maze.caynostdulbl.ap-northeast-2.rds.amazonaws.com:3306/memory?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false
+    url: jdbc:mysql://memory-maze.caynostdulbl.ap-northeast-2.rds.amazonaws.com:3306/memory?characterEncoding=UTF-8&serverTimezone=&useLegacyDatetimeCode=false&useSSL=false
     hikari:
       username: admin
       password: QWERasdf123!
@@ -78,6 +78,14 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
           main.repository: info #com.example.beerProj.main.repository 패키지 logging Level > info
           main.service: info #com.example.beerProj.main.service 패키지 logging Level > info
           main.controller: debug #com.example.beerProj.main.controller 패키지 logging Level > debug
+#server:
+#  ssl:
+#    enabled: true
+#    key-store: keystore.p12
+#    key-store-password: 123456
+#    key-store-type: PKCS12
+#    key-alias: bns-ssl
+#  port: 8443
 
 --- #dev 환경
 spring:
