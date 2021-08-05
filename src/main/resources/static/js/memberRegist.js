@@ -51,7 +51,7 @@ function memberRegister(callBack, contentType) {
     return;
   }
   $.ajax({
-    url: 'memberRegister.do',
+    url: '/common/memberRegister.do',
     data: options,
     type: 'post',
     contentType: contentType != null ? contentType

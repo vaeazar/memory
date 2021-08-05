@@ -16,7 +16,7 @@ public class MainController {
     mv.setViewName("index");
     return mv;
   }
-  @RequestMapping("memberRegister")
+  @RequestMapping("/common/memberRegister")
   public ModelAndView memberRegister() {
     ModelAndView mv = new ModelAndView();
     mv.setViewName("memberRegister");
@@ -35,16 +35,29 @@ public class MainController {
     mv.setViewName("test");
     return mv;
   }
-  @RequestMapping("loginPage")
+  @RequestMapping("/common/loginPage")
   public ModelAndView loginPage() {
     ModelAndView mv = new ModelAndView();
     mv.setViewName("loginPage");
     return mv;
   }
-  @RequestMapping("outTest")
+  @RequestMapping("/common/outTest")
   @ResponseBody
   public String outTest() {
     log.info("이탈 확인");
     return "";
   }
+  @RequestMapping("/admin/board")
+  public ModelAndView adminBoard() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("adminCheck");
+    return mv;
+  }
+  @RequestMapping("/member/board")
+  public ModelAndView memberBoard() {
+    ModelAndView mv = new ModelAndView();
+    mv.setViewName("loginCheck");
+    return mv;
+  }
+
 }

@@ -54,12 +54,12 @@ public class MemberService {
     return resultJson;
   }
 
-  public boolean loginCheck(HttpSession session, HashMap<String, Object> params, JSONObject resultJson) {
+  public boolean loginCheck(MemberInfo memberInfo, HashMap<String, Object> params, JSONObject resultJson) {
 
     ObjectMapper mapper = new ObjectMapper();
     try {
       mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      MemberInfo memberInfo = mapper.convertValue(params, MemberInfo.class);
+      memberInfo = mapper.convertValue(params, MemberInfo.class);
       if (memberInfo.IDAndPWBlank()) {
         resultJson.put("resultFlag","fail");
         resultJson.put("reason","empty");
@@ -71,7 +71,7 @@ public class MemberService {
       if (resultMember.isPresent()) {
         resultJson.put("resultFlag","complete");
         resultJson.put("memberID",memberInfo.getMemberID());
-        session.setAttribute(memberInfo.getMemberID(),true);
+        return true;
       } else {
         resultJson.put("resultFlag","wrongMember");
       }

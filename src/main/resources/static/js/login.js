@@ -23,7 +23,7 @@ function login(callBack, contentType) {
     return;
   }
   $.ajax({
-    url: 'login.do',
+    url: '/common/login.do',
     data: options,
     type: 'post',
     contentType: contentType != null ? contentType
