@@ -5,47 +5,41 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.TemporalType;
 import lombok.Data;
-import org.junit.platform.commons.util.StringUtils;
-import org.springframework.data.jpa.repository.Temporal;
+
+import javax.persistence.*;
+import java.time.ZonedDateTime;
 
 @Entity
 @Data
 @Table(name = "BOARD_INFO", schema = "memory")
-public class BoardInfo {
+public class Board {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "BOARD_KIND")
-  String memberID;
-  @Column(name = "BOARD_HEADER")
-  String memberPW;
-  @Column(name = "BOARD_TITLE")
-  String memberSalt;
+  @Column(name = "board_kind")
+  private String boardKind;
+  @Column(name = "board_header")
+  private String boardHeader;
+  @Column(name = "board_title")
+  private String boardTitle;
   @Lob
-  @Column(name = "BOARD_CONTENT")
-  String memberClearRoom;
+  @Column(name = "board_content")
+  private String boardContent;
+
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
-  @Column(name = "BOARD_CREATED_DATE")
-  private ZonedDateTime createdDate;
+  @Column(name = "board_created_date")
+  //ZonedDateTime = LocalDateTime + 시차/타임존, 날짜/시간 이외에 시차, 타임존이 필요할 경우 사용
+  private ZonedDateTime boardCreateDate;
+
+
   @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
-  @Column(name = "BOARD_LAST_MODIFIED_DATE")
-  private ZonedDateTime lastModifiedDate;
+  @Column(name = "board_last_modified_date")
+  private ZonedDateTime boardLastModifiedDate;
 }
