@@ -1,13 +1,13 @@
 package com.maze.memory.controller;
 
 import com.maze.memory.domain.ClearInfo;
-import com.maze.memory.domain.ResponseFormat;
+import com.maze.memory.domain.response.ResponseFormat;
 import com.maze.memory.service.RankService;
+import com.maze.memory.utils.ResponseUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,32 +31,21 @@ public class RankController {
   private final RankService service;
 
   @GetMapping(value = "/clear/top10", produces = "application/json")
-  public ResponseEntity<ResponseFormat<Object>> getClearTop10() {
+  public ResponseEntity<ResponseFormat> getClearTop10() {
     try {
       List<ClearInfo> infos = service.getAllClearTop10();
 
       Map<String, Object> data = new HashMap<>();
       data.put("infos", infos);
 
-      ResponseFormat<Object> res = ResponseFormat.builder()
-          .code(HttpStatus.OK.value())
-          .message("request ok")
-          .data(data)
-          .build();
-
-      return ResponseEntity.ok(res);
+      return ResponseUtils.getResponseOk(data);
     } catch (Exception e) {
-      ResponseFormat<Object> res = ResponseFormat.builder()
-          .code(HttpStatus.BAD_REQUEST.value())
-          .message(e.getMessage())
-          .build();
-
-      return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+      return ResponseUtils.getBadRequest(e.getMessage());
     }
   }
 
   @GetMapping(value = "/clear/room/{roomId}", produces = "application/json")
-  public ResponseEntity<ResponseFormat<Object>> getClearTime(
+  public ResponseEntity<ResponseFormat> getClearTime(
       @PathVariable("roomId") String roomId,
       @RequestParam(required = false) String memberId,
       @RequestParam(required = false, defaultValue = "10") int limit) {
@@ -66,20 +55,9 @@ public class RankController {
       Map<String, Object> data = new HashMap<>();
       data.put("infos", infos);
 
-      ResponseFormat<Object> res = ResponseFormat.builder()
-          .code(HttpStatus.OK.value())
-          .message("request ok")
-          .data(data)
-          .build();
-
-      return ResponseEntity.ok(res);
+      return ResponseUtils.getResponseOk(data);
     } catch (Exception e) {
-      ResponseFormat<Object> res = ResponseFormat.builder()
-          .code(HttpStatus.BAD_REQUEST.value())
-          .message(e.getMessage())
-          .build();
-
-      return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+      return ResponseUtils.getBadRequest(e.getMessage());
     }
   }
 
