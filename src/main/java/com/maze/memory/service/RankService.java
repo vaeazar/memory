@@ -28,7 +28,11 @@ public class RankService {
    *
    * @return 클리어 정보 리스트
    */
-  public List<ClearInfo> getClearTop10() {
+  public List<ClearInfo> getAllClearTop10() {
     return clearRepository.findTop10();
+  }
+
+  public List<ClearInfo> getClearSpendTimeTop5 (String roomId) {
+    return clearRepository.findTop5ByRoomId(roomId);
   }
 }

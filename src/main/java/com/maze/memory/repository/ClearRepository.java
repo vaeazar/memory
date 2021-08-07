@@ -24,4 +24,14 @@ public interface ClearRepository {
    * @return 클리어 정보 리스트
    */
   List<ClearInfo> findTop10();
+
+  /**
+   * <pre>
+   *   방 클리어 소요시간 TOP5의 클리어 정보를 조회한다.
+   * </pre>
+   *
+   * @param roomId 방 아이디
+   * @return 클리어 정보 리스트
+   */
+  List<ClearInfo> findTop5ByRoomId(String roomId);
 }

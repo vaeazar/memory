@@ -35,7 +35,7 @@ public class ClearInfo {
   private String roomId;
 
   @Column(name = "spend_time")
-  private Long spend_time;
+  private Long spendTime;
 
   @CreationTimestamp
   @Column(name = "created_date")

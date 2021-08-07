@@ -31,14 +31,14 @@ public class RankController {
   private final RankService service;
 
   @GetMapping(value = "/clear/top10", produces = "application/json")
-  public ResponseEntity<ResponseFormat> getClearTop10() {
+  public ResponseEntity<ResponseFormat<Object>> getClearTop10() {
     try {
-      List<ClearInfo> infoList = service.getClearTop10();
+      List<ClearInfo> infos = service.getAllClearTop10();
 
       Map<String, Object> data = new HashMap<>();
-      data.put("infos", infoList);
+      data.put("infos", infos);
 
-      ResponseFormat res = ResponseFormat.builder()
+      ResponseFormat<Object> res = ResponseFormat.builder()
           .code(HttpStatus.OK.value())
           .message("request ok")
           .data(data)
@@ -46,7 +46,7 @@ public class RankController {
 
       return ResponseEntity.ok(res);
     } catch (Exception e) {
-      ResponseFormat res = ResponseFormat.builder()
+      ResponseFormat<Object> res = ResponseFormat.builder()
           .code(HttpStatus.BAD_REQUEST.value())
           .message(e.getMessage())
           .build();
@@ -56,17 +56,31 @@ public class RankController {
   }
 
   @GetMapping(value = "/clear/room/{roomId}", produces = "application/json")
-  public Map<String, Object> getClearTime(
+  public ResponseEntity<ResponseFormat<Object>> getClearTime(
       @PathVariable("roomId") String roomId,
       @RequestParam(required = false) String memberId,
       @RequestParam(required = false, defaultValue = "10") int limit) {
-    Map<String, Object> res = new HashMap<>();
+    try {
+      List<ClearInfo> infos = service.getClearSpendTimeTop5(roomId);
 
-    res.put("roomId", roomId);
-    res.put("memberId", memberId);
-    res.put("limit", limit);
+      Map<String, Object> data = new HashMap<>();
+      data.put("infos", infos);
 
-    return res;
+      ResponseFormat<Object> res = ResponseFormat.builder()
+          .code(HttpStatus.OK.value())
+          .message("request ok")
+          .data(data)
+          .build();
+
+      return ResponseEntity.ok(res);
+    } catch (Exception e) {
+      ResponseFormat<Object> res = ResponseFormat.builder()
+          .code(HttpStatus.BAD_REQUEST.value())
+          .message(e.getMessage())
+          .build();
+
+      return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @GetMapping(value = "/answer/wrong", produces = "application/json")

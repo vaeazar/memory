@@ -27,9 +27,19 @@ public class JpaClearRepository implements ClearRepository {
 
   @Override
   public List<ClearInfo> findTop10() {
-    String query = "select c from ClearInfo c where c.roomId = 'r20' order by c.createdDate desc";
+    String query = "select c from ClearInfo c where c.roomId = 'r20' order by c.createdDate asc";
     List<ClearInfo> result = em.createQuery(query, ClearInfo.class).getResultList();
 
     return result.stream().limit(10).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<ClearInfo> findTop5ByRoomId(String roomId) {
+    String query = "select c from ClearInfo c where c.roomId = :roomId order by c.spendTime asc";
+    List<ClearInfo> result = em.createQuery(query, ClearInfo.class)
+        .setParameter("roomId", roomId)
+        .getResultList();
+
+    return result.stream().limit(5).collect(Collectors.toList());
   }
 }
