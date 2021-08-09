@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -23,21 +25,22 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "clear_info", schema = "memory")
 @Getter
+@Builder
 public class ClearInfo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private final Long id;
 
   @Column(name = "member_id")
-  private String memberId;
+  private final String memberId;
 
   @Column(name = "room_id")
-  private String roomId;
+  private final String roomId;
 
   @Column(name = "spend_time")
-  private Long spendTime;
+  private final Long spendTime;
 
   @CreationTimestamp
   @Column(name = "created_date")
-  private LocalDateTime createdDate;
+  private final LocalDateTime createdDate;
 }
