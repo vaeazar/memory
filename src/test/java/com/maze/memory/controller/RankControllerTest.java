@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RankController.class)
@@ -63,6 +64,17 @@ class RankControllerTest {
 
     // then
     result.andExpect(status().isOk())
-      .andDo(document("/rank-clear-top10"));
+      .andDo(document("/rank-clear-top10",
+        responseFields(
+          fieldWithPath("code").description("응답 코드"),
+          fieldWithPath("message").description("응답 문구"),
+          fieldWithPath("data").description("응답 데이터"),
+          fieldWithPath("data.infos").description("클리어 정보 배열"),
+          fieldWithPath("data.infos[].id").description("클리어 정보 아이디"),
+          fieldWithPath("data.infos[].memberId").description("클리어 유저 아이디"),
+          fieldWithPath("data.infos[].roomId").description("클리어 방 아이디"),
+          fieldWithPath("data.infos[].spendTime").description("클리어 소요시간(ms)"),
+          fieldWithPath("data.infos[].createdDate").description("클리어 시간(생성 시간)")
+        )));
   }
 }

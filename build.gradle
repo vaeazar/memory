@@ -9,13 +9,19 @@ group = 'com.maze'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+
 asciidoctor {
+	inputs.dir snippetsDir
 	dependsOn test // (2)
 }
 
 bootJar {
 	dependsOn asciidoctor
-	from ('$/html5') {
+	from ('${asciidoctor.outputDir}/html5') {
 		into 'static/docs'
 	}
 }
@@ -34,6 +40,7 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
@@ -48,5 +55,6 @@ dependencies {
 }
 
 test {
+	outputs.dir snippetsDir
 	useJUnitPlatform()
 }
