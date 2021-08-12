@@ -1,0 +1,5 @@
+= REST API Document
+
+== 1. 랭크 API
+include::{snippets}/rank-clear-top10/http-request.adoc[]
+include::{snippets}/rank-clear-top10/http-response.adoc[]

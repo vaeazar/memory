@@ -2,6 +2,7 @@ package com.maze.memory.controller;
 
 import com.maze.memory.domain.ClearInfo;
 import com.maze.memory.service.RankService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -17,6 +19,8 @@ import org.springframework.test.web.servlet.ResultHandler;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -64,7 +68,7 @@ class RankControllerTest {
 
     // then
     result.andExpect(status().isOk())
-      .andDo(document("/rank-clear-top10",
+      .andDo(document("rank-clear-top10",
         responseFields(
           fieldWithPath("code").description("응답 코드"),
           fieldWithPath("message").description("응답 문구"),
