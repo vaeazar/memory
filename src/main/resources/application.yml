@@ -78,6 +78,10 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
           main.repository: info #com.example.beerProj.main.repository 패키지 logging Level > info
           main.service: info #com.example.beerProj.main.service 패키지 logging Level > info
           main.controller: debug #com.example.beerProj.main.controller 패키지 logging Level > debug
+jwt:
+  header: Authorization
+  secret: bXlQcm9qZWN0VGVzdGJsYWJsYWJsYWJsYWJsYWhhaGFoYWhhaGloaWhp
+  token-validity-in-seconds: 86400
 #server:
 #  ssl:
 #    enabled: true

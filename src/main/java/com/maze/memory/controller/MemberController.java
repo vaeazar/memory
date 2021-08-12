@@ -22,7 +22,7 @@ public class MemberController {
     this.memberService = memberService;
   }
 
-  @RequestMapping("login.do")
+  @RequestMapping("/common/login.do")
   @ResponseBody
   public String memberLogin(HttpServletRequest request, @RequestParam HashMap<String, Object> params) {
     JSONObject resultString = new JSONObject();
@@ -40,7 +40,7 @@ public class MemberController {
     return resultString.toJSONString();
   }
 
-  @RequestMapping("memberRegister.do")
+  @RequestMapping("/common/memberRegister.do")
   @ResponseBody
   public String memberRegister(@RequestParam HashMap<String, Object> params) {
     JSONObject memberListString = new JSONObject();

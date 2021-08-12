@@ -1,6 +1,7 @@
 package com.maze.memory.utils;
 
 import com.maze.memory.domain.MemberInfo;
+import com.maze.memory.dto.LoginDto;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,7 +11,7 @@ import org.junit.platform.commons.util.StringUtils;
 
 public class CommonUtils {
 
-  public static void pwChanger(MemberInfo memberInfo) {
+  public static void pwChanger(MemberInfo memberInfo, LoginDto loginDto) {
     String raw = memberInfo.getMemberPW();
 
     try {
@@ -31,6 +32,9 @@ public class CommonUtils {
       String hex = String.format("%064x", new BigInteger(1, md.digest()));
 
       memberInfo.setMemberPW(hex);
+      if (loginDto != null) {
+        loginDto.setMemberPW(hex);
+      }
     } catch (NoSuchAlgorithmException e) {
       e.printStackTrace();
     }

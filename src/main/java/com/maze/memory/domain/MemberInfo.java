@@ -5,20 +5,22 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.junit.platform.commons.util.StringUtils;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Data
@@ -53,6 +55,14 @@ public class MemberInfo {
   @UpdateTimestamp
   @Column(name = "MEMBER_LAST_MODIFIED_DATE")
   private ZonedDateTime lastModifiedDate;
+
+  @ManyToMany
+  @JoinTable(
+      name = "member_authority"
+      ,joinColumns = {@JoinColumn(name = "MEMBER_ID", referencedColumnName = "MEMBER_ID")}
+      ,inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_NAME", referencedColumnName = "AUTHORITY_NAME")}
+  )
+  private Set<Authority> authorities;
 
   public MemberInfo() {
     this.memberRole = "member";

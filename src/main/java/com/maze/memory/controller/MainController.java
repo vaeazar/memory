@@ -16,7 +16,7 @@ public class MainController {
     mv.setViewName("index");
     return mv;
   }
-  @RequestMapping("memberRegister")
+  @RequestMapping("/memberRegister")
   public ModelAndView memberRegister() {
     ModelAndView mv = new ModelAndView();
     mv.setViewName("memberRegister");
@@ -35,7 +35,7 @@ public class MainController {
     mv.setViewName("test");
     return mv;
   }
-  @RequestMapping("loginPage")
+  @RequestMapping("/loginPage")
   public ModelAndView loginPage() {
     ModelAndView mv = new ModelAndView();
     mv.setViewName("loginPage");

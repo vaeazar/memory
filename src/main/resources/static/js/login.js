@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (tempJson.resultFlag == 'fail') {
         alert('로그인 실패!!!');
       }
-    });
+    },'application/json');
   })
 });
 
@@ -23,7 +23,7 @@ function login(callBack, contentType) {
     return;
   }
   $.ajax({
-    url: 'login.do',
+    url: '/auth/authenticate',
     data: options,
     type: 'post',
     contentType: contentType != null ? contentType
@@ -39,8 +39,8 @@ function login(callBack, contentType) {
 }
 
 function checkMemberInfo() {
-  let memberPW = document.querySelector('#memberPW').value;
   let memberID = document.querySelector('#memberID').value;
+  let memberPW = document.querySelector('#memberPW').value;
 
   return {
     memberID: memberID,

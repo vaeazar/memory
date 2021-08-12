@@ -36,7 +36,7 @@ public class MemberService {
         resultJson.put("reason","empty");
         return resultJson;
       }
-      CommonUtils.pwChanger(memberInfo);
+      CommonUtils.pwChanger(memberInfo, null);
 
       //중복 회원 검증
       if (invalidateDuplicateMember(memberInfo).get()) {
@@ -66,7 +66,7 @@ public class MemberService {
       }
       String memberSalt = memberRepository.findMemberSaltByMemberID(memberInfo.getMemberID());
       memberInfo.setMemberSalt(memberSalt);
-      CommonUtils.pwChanger(memberInfo);
+      CommonUtils.pwChanger(memberInfo, null);
       Optional<MemberInfo> resultMember = findOneByMemberIDAndPW(memberInfo.getMemberID(),memberInfo.getMemberPW());
       if (resultMember.isPresent()) {
         resultJson.put("resultFlag","complete");
@@ -79,6 +79,17 @@ public class MemberService {
       resultJson.put("resultFlag","fail");
     }
     return false;
+  }
+
+  public void jwtLoginCheck(MemberInfo memberInfo) {
+    try {
+      String memberSalt = memberRepository.findMemberSaltByMemberID(memberInfo.getMemberID());
+      memberInfo.setMemberSalt(memberSalt);
+      CommonUtils.pwChanger(memberInfo, null);
+      Optional<MemberInfo> resultMember = findOneByMemberIDAndPW(memberInfo.getMemberID(),memberInfo.getMemberPW());
+    } catch (Exception e) {
+      log.error("jwtLoginCheckError::{}" + e);
+    }
   }
 
   public boolean sessionCheck(HttpSession session, HashMap<String, Object> params, JSONObject resultJson) {
