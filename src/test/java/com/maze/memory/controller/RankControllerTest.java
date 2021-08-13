@@ -4,6 +4,7 @@ import com.maze.memory.domain.ClearInfo;
 import com.maze.memory.service.RankService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -11,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -24,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -32,13 +36,24 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RankController.class)
-@AutoConfigureRestDocs
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 class RankControllerTest {
-  @Autowired
   private MockMvc mockMvc;
 
   @MockBean
   private RankService rankService;
+
+  @BeforeEach
+  void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+        .apply(
+            documentationConfiguration(restDocumentation)
+                .operationPreprocessors()
+                .withRequestDefaults(prettyPrint())
+                .withResponseDefaults(prettyPrint())
+        )
+        .build();
+  }
 
   @Test
   void getClearTop10() throws Exception {
