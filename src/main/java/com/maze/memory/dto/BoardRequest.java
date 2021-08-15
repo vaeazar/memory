@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class BoardRequest {
+    private long boardNo;
     private String boardKind;
     private String boardHeader;
     private String boardTitle;
