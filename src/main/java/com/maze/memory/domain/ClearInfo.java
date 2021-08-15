@@ -7,7 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 /**
@@ -23,6 +28,9 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "clear_info", schema = "memory")
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClearInfo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
