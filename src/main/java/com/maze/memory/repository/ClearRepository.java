@@ -34,4 +34,13 @@ public interface ClearRepository {
    * @return 클리어 정보 리스트
    */
   List<ClearInfo> findTop5ByRoomId(String roomId);
+
+  /**
+   * <pre>
+   *   클리어 정보를 저장한다.
+   * </pre>
+   * @param clear 클리어 정보
+   * @return 저장된 클리어 정보
+   */
+  ClearInfo save(ClearInfo clear);
 }

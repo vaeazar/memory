@@ -1,7 +1,10 @@
 package com.maze.memory.service;
 
 import com.maze.memory.domain.AnswerInfo;
+import com.maze.memory.domain.ClearInfo;
+import com.maze.memory.domain.MemberInfo;
 import com.maze.memory.repository.AnswerRepository;
+import com.maze.memory.repository.ClearRepository;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Transactional
 public class AnswerService {
-  private final AnswerRepository repository;
+  private final AnswerRepository answerRepository;
+  private final ClearRepository clearRepository;
 
   public void fail(String roomId, String answer) {
     // 오답 정보 저장
@@ -30,11 +34,19 @@ public class AnswerService {
         .roomId(roomId)
         .answer(answer)
         .build();
-    repository.save(answerInfo);
+    answerRepository.save(answerInfo);
   }
 
   public void success(String roomId) {
     // 멤버 정보 업데이트
+    // TODO JWT 멤버정보 가져오기
+
     // 클리어 정보 저장
+    ClearInfo clearInfo = ClearInfo.builder()
+        .memberId("younger33")
+        .roomId(roomId)
+        .spendTime(156783215L)
+        .build();
+    clearRepository.save(clearInfo);
   }
 }

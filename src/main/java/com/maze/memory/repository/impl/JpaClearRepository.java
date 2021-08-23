@@ -42,4 +42,10 @@ public class JpaClearRepository implements ClearRepository {
 
     return result.stream().limit(5).collect(Collectors.toList());
   }
+
+  @Override
+  public ClearInfo save(ClearInfo clear) {
+    em.persist(clear);
+    return clear;
+  }
 }
