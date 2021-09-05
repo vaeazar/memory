@@ -5,30 +5,44 @@ import com.maze.memory.dto.BoardRequest;
 import com.maze.memory.service.BoardService;
 import com.maze.memory.utils.MazeConstant;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/board")
 @RequiredArgsConstructor
 public class BoardController {
 
-    private static BoardService boardservice;
+    private final BoardService boardservice;
+
+    @GetMapping(value = "/")
+    public String root() {
+        return "rootpage";
+    }
 
     //생성
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", produces = "application/json")
     public ResponseEntity<ResponseFormat> createBoard(BoardRequest rq) {
-        return boardservice.createBoard(rq);
+        return boardservice.createBoardService(rq);
     }
 
     //전체 글
-    @GetMapping(value = "/read/all")
+//    @GetMapping(value = "/read/all")
+//    public ResponseEntity<ResponseFormat> readBoardAll(
+//            @RequestParam(required = false) int pageNum,
+//            @RequestParam(required = false) int pageSize
+//    ) {
+//        return boardservice.readBoardAll(pageNum, pageSize);
+//    }
+//
+    @GetMapping(value = "/read/all",produces = "application/json")
     public ResponseEntity<ResponseFormat> readBoardAll(
-            @RequestParam(required = false) int pageNum,
-            @RequestParam(required = false) int pageSize
+            @RequestParam(required = false) int pageNum
     ) {
-        return boardservice.readBoardAll(pageNum, pageSize);
+        log.info("get parameter value is " + pageNum);
+        return boardservice.readBoardAll(pageNum);
     }
 
     //userId로 검색

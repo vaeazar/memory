@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @NoArgsConstructor
@@ -47,7 +48,7 @@ public class Board {
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @Column(name = "board_created_date")
   //게시글 생성 날짜
-  private ZonedDateTime boardCreateDate;
+  private LocalDateTime boardCreateDate;
 
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -55,7 +56,7 @@ public class Board {
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   //게시글수정 날짜
   @Column(name = "board_last_modified_date")
-  private ZonedDateTime boardLastModifiedDate;
+  private LocalDateTime boardLastModifiedDate;
 
   //업데이트
   public void updateBoard(BoardRequest rq) {
@@ -63,16 +64,16 @@ public class Board {
     this.boardHeader = rq.getBoardHeader();
     this.boardTitle = rq.getBoardTitle();
     this.boardContent = rq.getBoardContent();
-    this.boardLastModifiedDate = ZonedDateTime.now();
+    this.boardLastModifiedDate = LocalDateTime.now();
   }
 
   @Builder
-  public Board(String boardKind, String boardHeader, String boardTitle, String boardContent, ZonedDateTime boardCreateDate) {
+  public Board(String boardKind, String boardHeader, String boardTitle, String boardContent, LocalDateTime boardCreateDate) {
     this.boardKind = boardKind;
     this.boardHeader = boardHeader;
     this.boardTitle = boardTitle;
     this.boardContent = boardContent;
-    this.boardCreateDate = boardCreateDate;
+    this.boardCreateDate = LocalDateTime.now();
   }
 
 }

@@ -6,11 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 
-@Repository
 public interface BoardRepositoryCustom {
 
     //모든 게시글 검색
-//    Page<Board> findAll(Pageable pageable);
+    Page<Board> findAll(Pageable pageable);
 
     //유저 이름으로 게시글 검색
     Page<Board> findByUserNo(long userNo, Pageable pageable);

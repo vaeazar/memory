@@ -24,7 +24,7 @@ public class BoardService {
 
     //create
     @Transactional
-    public ResponseEntity<ResponseFormat> createBoard(BoardRequest rq) {
+    public ResponseEntity<ResponseFormat> createBoardService(BoardRequest rq) {
 
         try {
 
@@ -33,7 +33,6 @@ public class BoardService {
                     .boardHeader(rq.getBoardHeader())
                     .boardTitle(rq.getBoardTitle())
                     .boardContent(rq.getBoardContent())
-                    .boardCreateDate(ZonedDateTime.now())
                     .build();
 
             boardRepository.save(board);
@@ -45,10 +44,11 @@ public class BoardService {
     }
 
     //전체조회
-    public ResponseEntity<ResponseFormat> readBoardAll(int pageNum, int pageSize) {
+    public ResponseEntity<ResponseFormat> readBoardAll(int pageNum) {
         try {
 
-            List<Board> boards = boardRepository.findAll(PageRequest.of(pageNum, pageSize)).getContent();
+//            List<Board> boards = boardRepository.findAll();
+            List<Board> boards = boardRepository.findAll(PageRequest.of(pageNum, 5)).getContent();
             return ResponseUtils.getResponseOk(boards);
         } catch (Exception e) {
             return ResponseUtils.getBadRequest(e.getMessage());

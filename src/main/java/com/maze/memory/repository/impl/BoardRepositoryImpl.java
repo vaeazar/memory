@@ -17,7 +17,6 @@ import static com.maze.memory.domain.QBoard.board;
 
 
 @RequiredArgsConstructor
-@Repository
 
 /**
  * setting에서 build 옵션이 gradle이 아닌 intelliJ라면 Q domain이 안생길 수 있음
@@ -28,19 +27,19 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     //모든 게시글 검색
-//    @Override
-//    public Page<Board> findAll(Pageable pageable) {
-//        List<Board> result = queryFactory.selectFrom(board)
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-//        long cnt = queryFactory
-//                .selectFrom(board)
-//                .fetchCount();
-//
-//        return new PageImpl<>(result, pageable, cnt);
-//    }
+    @Override
+    public Page<Board> findAll(Pageable pageable) {
+        List<Board> result = queryFactory.selectFrom(board)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long cnt = queryFactory
+                .selectFrom(board)
+                .fetchCount();
+
+        return new PageImpl<>(result, pageable, cnt);
+    }
 
     //    유저 이름으로 게시글 검색
     @Override

@@ -57,8 +57,10 @@ spring:
     generate-ddl: false
     open-in-view: false
     show-sql: true
-#    properties:
-#      hibernate:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 #        jdbc:
 #          time_zone: UTC
 #    hibernate:
@@ -78,6 +80,11 @@ logging: # ROOT레벨 전체 로깅 레벨 결정
           main.repository: info #com.example.beerProj.main.repository 패키지 logging Level > info
           main.service: info #com.example.beerProj.main.service 패키지 logging Level > info
           main.controller: debug #com.example.beerProj.main.controller 패키지 logging Level > debug
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
 #server:
 #  ssl:
 #    enabled: true
