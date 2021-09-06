@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class JpaConfig {
@@ -22,7 +23,7 @@ public class JpaConfig {
 
   @Bean
   public MemberService memberService() {
-    return new MemberService(memberRepository());
+    return new MemberService(memberRepository(), new BCryptPasswordEncoder());
   }
 
   @Bean

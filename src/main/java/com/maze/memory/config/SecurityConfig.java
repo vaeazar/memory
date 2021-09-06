@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     web
         .ignoring()
         .antMatchers("/favicon.ico","/js/**","/css/**")
-        .mvcMatchers("/","/loginPage","/memberRegister");
+        .mvcMatchers("/favicon.ico","/","/loginPage","/memberRegister","/error/**");
   }
 
   @Override

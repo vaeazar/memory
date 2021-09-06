@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Set;
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ import org.junit.platform.commons.util.StringUtils;
 @Entity
 @Data
 @Table(name = "MEMBER_INFO", schema = "memory")
-public class MemberInfo {
+public class MemberInfo implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,18 +1,22 @@
+let asdfasdf = '';
+
 
 document.addEventListener("DOMContentLoaded", function () {
   let loginBtn = document.querySelector('#loginBtn');
 
   loginBtn.addEventListener('click',function() {
     login(function (result) {
-      let tempJson = JSON.parse(result);
-      if (tempJson.resultFlag == 'wrongMember') {
-        alert('아이디와 비밀번호를 확인해주세요!!!');
-      } else if (tempJson.resultFlag == 'complete') {
-        alert('로그인 성공!!!');
-      } else if (tempJson.resultFlag == 'fail') {
-        alert('로그인 실패!!!');
-      }
-    },'application/json');
+      console.log(result);
+      asdfasdf = result;
+      // let tempJson = JSON.parse(result);
+      // if (tempJson.resultFlag == 'wrongMember') {
+      //   alert('아이디와 비밀번호를 확인해주세요!!!');
+      // } else if (tempJson.resultFlag == 'complete') {
+      //   alert('로그인 성공!!!');
+      // } else if (tempJson.resultFlag == 'fail') {
+      //   alert('로그인 실패!!!');
+      // }
+    });
   })
 });
 

@@ -16,5 +16,7 @@ public interface MemberRepository {
 
   String findMemberSaltByMemberID(String memberID);
 
+  MemberInfo findMemberInfoByMemberID(String memberID);
+
   List<MemberInfo> findAll();
 }

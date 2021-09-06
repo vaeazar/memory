@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JwtRepository extends JpaRepository<MemberInfo, Long> {
 
-  @EntityGraph(attributePaths = "autorities")
+  @EntityGraph(attributePaths = "authorities")
   Optional<MemberInfo> findOneWithMemberRoleByMemberID(String memberID);
 }

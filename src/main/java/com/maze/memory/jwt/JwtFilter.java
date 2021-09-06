@@ -1,15 +1,20 @@
 package com.maze.memory.jwt;
 
+import com.maze.memory.utils.CookieUtils;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import org.eclipse.jetty.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -17,9 +22,13 @@ public class JwtFilter extends GenericFilterBean {
 
   private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
-  public static final String AUTHORIZATION_HEADER = "Authorization";
+  //public static final String AUTHORIZATION_HEADER = "Authorization";
+  public static final String AUTHORIZATION_HEADER = "accessToken";
 
   private TokenProvider tokenProvider;
+
+  @Autowired
+  private CookieUtils cookieUtils;
 
   public JwtFilter(TokenProvider tokenProvider) {
     this.tokenProvider = tokenProvider;
@@ -44,8 +53,13 @@ public class JwtFilter extends GenericFilterBean {
 
   private String resolveToken(HttpServletRequest request) {
     String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-      return bearerToken.substring(7);
+    Cookie bearerCookie = CookieUtils.getCookie(request,AUTHORIZATION_HEADER);
+    bearerToken = ObjectUtils.isEmpty(bearerCookie) ? "" : bearerCookie.getValue();
+//    if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+//      return bearerToken.substring(7);
+//    }
+    if (StringUtils.hasText(bearerToken)) {
+      return bearerToken;
     }
     return null;
   }

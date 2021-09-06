@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maze.memory.domain.MemberInfo;
 import com.maze.memory.repository.MemberRepository;
 import com.maze.memory.utils.CommonUtils;
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -19,9 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
+  private final PasswordEncoder passwordEncoder;
 
-  public MemberService(MemberRepository memberRepository) {
+  public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
     this.memberRepository = memberRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public JSONObject join(HashMap<String, Object> params) {
@@ -90,6 +94,20 @@ public class MemberService {
     } catch (Exception e) {
       log.error("jwtLoginCheckError::{}" + e);
     }
+  }
+
+  public boolean jwtLoginCheckBoolean(MemberInfo memberInfo) {
+    try {
+      MemberInfo selectMember = memberRepository.findMemberInfoByMemberID(memberInfo.getMemberID());
+      if (selectMember.IDAndPWBlank()) {
+        return false;
+      } else {
+        return passwordEncoder.matches(memberInfo.getMemberPW(), selectMember.getMemberPW());
+      }
+    } catch (Exception e) {
+      log.error("jwtLoginCheckError::{}" + e);
+    }
+    return false;
   }
 
   public boolean sessionCheck(HttpSession session, HashMap<String, Object> params, JSONObject resultJson) {
