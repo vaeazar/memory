@@ -43,4 +43,14 @@ public interface ClearRepository {
    * @return 저장된 클리어 정보
    */
   ClearInfo save(ClearInfo clear);
+
+  /**
+   * <pre>
+   *   유저 아이디와 방 아이디로 클리어 정보를 조회한다.
+   * </pre>
+   * @param memberId 유저 아이디
+   * @param roomId 방 아이디
+   * @return 클리어 정보
+   */
+  ClearInfo findByMemberAndRoom(String memberId, String roomId);
 }

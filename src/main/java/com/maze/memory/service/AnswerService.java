@@ -41,12 +41,27 @@ public class AnswerService {
     // 멤버 정보 업데이트
     // TODO JWT 멤버정보 가져오기
 
-    // 클리어 정보 저장
-    ClearInfo clearInfo = ClearInfo.builder()
-        .memberId("younger33")
-        .roomId(roomId)
-        .spendTime(156783215L)
-        .build();
-    clearRepository.save(clearInfo);
+    // 기존 클리어 정보 가져오기
+    ClearInfo oldClearInfo = clearRepository.findByMemberAndRoom("younger33", roomId);
+
+    if (oldClearInfo == null) { // 클리어 정보 없음
+      // 새로운 클리어 정보 저장
+      ClearInfo clearInfo = ClearInfo.builder()
+          .memberId("younger33")
+          .roomId(roomId)
+          .spendTime(156783215L)
+          .status("01")
+          .build();
+      clearRepository.save(clearInfo);
+    } else if ("00".equals(oldClearInfo.getStatus())) { // 클리어 정보 있음
+      // 이전 시도에서 클리어 하지 못한 경우
+      ClearInfo clearInfo = ClearInfo.builder()
+          .memberId("younger33")
+          .roomId(roomId)
+          .spendTime(oldClearInfo.getSpendTime() + 156783215L)
+          .status("01")
+          .build();
+      clearRepository.save(clearInfo);
+    }
   }
 }

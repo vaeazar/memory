@@ -48,4 +48,14 @@ public class JpaClearRepository implements ClearRepository {
     em.persist(clear);
     return clear;
   }
+
+  @Override
+  public ClearInfo findByMemberAndRoom(String memberId, String roomId) {
+    String query = "select c from ClearInfo c where c.memberId = :memberId and c.roomId = :roomId";
+
+    return em.createQuery(query, ClearInfo.class)
+        .setParameter("memberId", memberId)
+        .setParameter("roomId", roomId)
+        .getSingleResult();
+  }
 }

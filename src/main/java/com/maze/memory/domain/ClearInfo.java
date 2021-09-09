@@ -45,6 +45,9 @@ public class ClearInfo {
   @Column(name = "spend_time")
   private Long spendTime;
 
+  @Column(name = "status")
+  private String status;
+
   @CreationTimestamp
   @Column(name = "created_date")
   private LocalDateTime createdDate;
