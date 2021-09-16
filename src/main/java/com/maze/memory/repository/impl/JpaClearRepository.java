@@ -3,6 +3,7 @@ package com.maze.memory.repository.impl;
 import com.maze.memory.domain.ClearInfo;
 import com.maze.memory.repository.ClearRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +51,12 @@ public class JpaClearRepository implements ClearRepository {
   }
 
   @Override
-  public ClearInfo findByMemberAndRoom(String memberId, String roomId) {
+  public Optional<ClearInfo> findByMemberAndRoom(String memberId, String roomId) {
     String query = "select c from ClearInfo c where c.memberId = :memberId and c.roomId = :roomId";
 
     return em.createQuery(query, ClearInfo.class)
         .setParameter("memberId", memberId)
         .setParameter("roomId", roomId)
-        .getSingleResult();
+        .getResultList().stream().findFirst();
   }
 }

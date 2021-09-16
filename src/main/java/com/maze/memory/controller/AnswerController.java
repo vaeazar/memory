@@ -36,7 +36,7 @@ public class AnswerController {
     try {
       if (answerUtils.getAnswer(roomId).equals(body.get("answer"))) {
         // 정답일 경우에 대한 처리
-        service.success(roomId);
+        service.success(roomId, (Long) body.get("spendTime"));
         data.put("isCorrect", true);
       } else {
         // 오답일 경우에 대한 처리

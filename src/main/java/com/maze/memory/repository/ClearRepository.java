@@ -2,6 +2,7 @@ package com.maze.memory.repository;
 
 import com.maze.memory.domain.ClearInfo;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * create on 2021/08/07. create by IntelliJ IDEA.
@@ -52,5 +53,5 @@ public interface ClearRepository {
    * @param roomId 방 아이디
    * @return 클리어 정보
    */
-  ClearInfo findByMemberAndRoom(String memberId, String roomId);
+  Optional<ClearInfo> findByMemberAndRoom(String memberId, String roomId);
 }

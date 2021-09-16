@@ -2,9 +2,9 @@ package com.maze.memory.service;
 
 import com.maze.memory.domain.AnswerInfo;
 import com.maze.memory.domain.ClearInfo;
-import com.maze.memory.domain.MemberInfo;
 import com.maze.memory.repository.AnswerRepository;
 import com.maze.memory.repository.ClearRepository;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,28 +37,32 @@ public class AnswerService {
     answerRepository.save(answerInfo);
   }
 
-  public void success(String roomId) {
+  public void success(String roomId, long spendTime) {
     // 멤버 정보 업데이트
     // TODO JWT 멤버정보 가져오기
 
     // 기존 클리어 정보 가져오기
-    ClearInfo oldClearInfo = clearRepository.findByMemberAndRoom("younger33", roomId);
+    Optional<ClearInfo> oldClearInfoOpt = clearRepository.findByMemberAndRoom("younger33", roomId);
 
-    if (oldClearInfo == null) { // 클리어 정보 없음
+    if (oldClearInfoOpt.isEmpty()) { // 클리어 정보 없음
       // 새로운 클리어 정보 저장
       ClearInfo clearInfo = ClearInfo.builder()
           .memberId("younger33")
           .roomId(roomId)
-          .spendTime(156783215L)
+          .spendTime(spendTime)
           .status("01")
           .build();
       clearRepository.save(clearInfo);
-    } else if ("00".equals(oldClearInfo.getStatus())) { // 클리어 정보 있음
+      return;
+    }
+
+    ClearInfo oldClearInfo = oldClearInfoOpt.get();
+    if ("00".equals(oldClearInfo.getStatus())) { // 클리어 정보 있음
       // 이전 시도에서 클리어 하지 못한 경우
       ClearInfo clearInfo = ClearInfo.builder()
           .memberId("younger33")
           .roomId(roomId)
-          .spendTime(oldClearInfo.getSpendTime() + 156783215L)
+          .spendTime(oldClearInfo.getSpendTime() + spendTime)
           .status("01")
           .build();
       clearRepository.save(clearInfo);
